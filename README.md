@@ -115,45 +115,83 @@ Your file structure should look like this:
 - [ ] Invalid input doesn't crash the app.
 - [ ] Both partners understand how main.py picks and runs the chosen agent.
 
-Once every box is checked, you're ready to build the Bolt frontend.
+Once every box is checked, you're ready to move on to agent collaboration.
 
-## Milestone 5 — Building the face
+## Milestone 5 — Agent Collaboration
 
-Now it's time to turn your working backend into a real app using Bolt.
+So far your agents have run independently — the user picks one, it runs, and it returns a result. Now make them actually work together.
 
-Write one detailed prompt for Bolt that explains:
+Instead of treating each agent as an idependant option, make them collborate.
 
-- What your app does and the problem it solves
+What this means:
+
+- Run Agent 1 first and capture its output (don't just print it and discard it — store it in a variable).
+- Ask the user for an additional input once Agent 1 has finished.
+- Pass both Agent 1's output and the new user input into Agent 2.
+- Agent 2 should build its response using both pieces of information, not just the new input alone.
+- Optional: maintain a combined history across both agents, so Agent 2 (and any later step) has context on what Agent 1 already did, not just its final output in isolation.
+
+Steps:
+
+- Update Agent 2's function so it accepts an extra parameter (Agent 1's output) in addition to the user's new input.
+- In main.py, call Agent 1's function, save the result, then call Agent 2's function with both that result and the new user input.
+- If you added the history option: keep a running history object or list that both agents can read from, so the final output reflects the full conversation, not just the last message.
+- Test that Agent 2's response actually changes depending on what Agent 1 produced — this confirms real collaboration rather than two disconnected agents.
+
+
+### Collaboration Checklist
+
+- [ ] Agent 1's output is captured and stored, not just printed.
+- [ ] The user is prompted for a new input after Agent 1 runs.
+- [ ] Agent 2 receives both Agent 1's output and the new user input.
+- [ ] Agent 2's final result clearly reflects information from Agent 1.
+- [ ] Combined history is maintained and used, not discarded between agents.
+
+Once every box is checked, you're ready to build the replit frontend.
+
+## Milestone 6 — Building the face
+
+Now it's time to turn your working backend into a real app using [Replit Agent](https://replit.com/)
+
+Write one detailed prompt for Replit that explains:
+
 - What each agent does (its specific job)
-- How you want the app to look and the features of it:
-  - A tab and chat page for each agent
-  - A loading indicator while the agent is thinking
-  - A send button
-  - A chat bar, etc...
+- How you want the app to look and feel
+- That each agent needs its own tab, with a different chat page for each agent — it's important to mention this explicitly, otherwise Replit may merge both agents into one chat.
 
-
-Since you already have 3 Python files (your agents), you can import your GitHub repository directly into Bolt. This lets Bolt read and use your existing backend code to build the app around it, instead of writing the backend from scratch.
+To connect your code to the frontend:
+- Make sure your code is pushed into github
+- Copy your project link: click on the code button which will give you the option to copy the project link
+- In Replit, click on "Import to Replit" --> "Import from GitHub"--> add the link.(if you are still confused refer back to the slides to know how to add it)
 
 Copy this and include it in your prompts:
 
-```
-"Update the Anthropic client initialization to read the base URL from the environment:
-`new Anthropic({ apiKey, baseURL: process.env.ANTHROPIC_BASE_URL })`. Then add `ANTHROPIC_API_KEY=your-key-here`
-and `ANTHROPIC_BASE_URL=your-base-url` to the environment variables."
-```
+"Update the Anthropic client initialization to read the base URL from the environment: `new Anthropic({ apiKey, baseURL: process.env.ANTHROPIC_BASE_URL })`. Then add `ANTHROPIC_API_KEY=your-key-here` and `ANTHROPIC_BASE_URL=your-base-url` to the environment variables."
 
-- Next, in the Bolt editor, find the `.env` file or the environment variables section.
-- Then in Bolt's env panel, set both:
-  ```
-  ANTHROPIC_API_KEY=your-key-here
-  ANTHROPIC_BASE_URL=your-base-url
-  ```
+Send your prompt and let the Replit agent build!
 
-> 💡 **Remember what we talked about in our previous sessions about clarity, feedback, and focus? Make sure to keep those in mind when prompting!**
+> 💡 Remember
+> Remember what we talked about in our previous sessions about clarity, feedback, and focus? Make sure to keep those in mind when prompting!
 
-![](https://raw.githubusercontent.com/meet-projects/Y2-Summer26-Pairs/refs/heads/main/bolt_import_github.png)
 
-## Milestone 6 — Test and Improve
+## Milestone 7 — Connect a Database with Supabase
+
+Now that your app works end to end, give it persistence by connecting it to a Supabase database.
+
+What this means: instead of losing all results and history when the app restarts, your data (agent outputs, user inputs, combined history, etc.) gets saved to and read from a real database.
+
+Steps:
+
+- Create a Supabase project and connect it to your app that the Replit Agent created - for more detailed instructions refer back to the slides.
+
+### Database Checklist
+
+- [ ] Supabase project and tables are created.
+- [ ] Backend successfully writes data to Supabase.
+- [ ] Backend successfully reads data back from Supabase.
+- [ ] Data still exists after restarting the app.
+
+## Milestone 8 — Test and Improve
 
 Test your complete application like a real user.
 
@@ -163,5 +201,5 @@ When you find a problem, fix one issue at a time and test again.
 
 Continue improving your prompts, backend, and frontend until the entire system works reliably.
 
-Once you reach this stage, deploy your web app: click on the publish button in Bolt so your project goes live!
+Once you reach this stage, deploy your web app: click on the publish button in Replit Agent so your project goes live!
 
